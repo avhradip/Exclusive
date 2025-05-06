@@ -21,14 +21,24 @@ import Checkout from "./Pages/Checkout/Checkout";
 import Provider from "./Components/Provider/Provider";
 import Allproducts from "./Components/Allproducts/Allproducts";
 import CategorieByProduct from "./Pages/ProductByCategorie/CategorieByProduct";
+import Search from "./Pages/Search/Search";
 
 import { Provider as ReduxProvider } from "react-redux";
 import Store from "./Redux/Store";
-import Search from "./Pages/Search/Search";
 
-export const CardData = createContext(null)
+import ErrorBoundary from "./Components/ErrorBoundary/ErrorBoundary"; // Adjust path as needed
+
+export const CardData = createContext(null);
+
+// ScrollToTop component (not doing anything currently)
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
 };
 
 const App = () => {
@@ -36,30 +46,43 @@ const App = () => {
     <Provider>
       <ReduxProvider store={Store}>
         <Router>
-          <ScrollToTop className="z-10" />
+          <ScrollToTop />
           <Header />
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/order" element={<Order />} />
-            <Route path="/cancellations" element={<Cancellations />} />
-            <Route path="/detailspage/:id" element={<Detailspage />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/categoriebyproduct" element={<CategorieByProduct />} />
-            <Route path="/allproducts" element={<Allproducts />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
-          <button className="p-5 bg-blue-400 rounded-full" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ position: "fixed", bottom: "20px", right: "20px", cursor: "pointer", }}>
-            <FaArrowUpLong style={{ color: 'blue' }} />
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/order" element={<Order />} />
+              <Route path="/cancellations" element={<Cancellations />} />
+              <Route path="/detailspage/:id" element={<Detailspage />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/categoriebyproduct" element={<CategorieByProduct />} />
+              <Route path="/allproducts" element={<Allproducts />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="*" element={<Error />} />
+            </Routes>
+          </ErrorBoundary>
+
+          <button
+            className="p-5 bg-blue-400 rounded-full"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            style={{
+              position: "fixed",
+              bottom: "20px",
+              right: "20px",
+              cursor: "pointer",
+            }}
+          >
+            <FaArrowUpLong style={{ color: "blue" }} />
           </button>
+
           <Footer />
         </Router>
       </ReduxProvider>
